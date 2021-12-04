@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 
 export default function Header() {
     return (
@@ -8,11 +9,11 @@ export default function Header() {
               <h5 className=" text-lg md:text-xl font-bold text-white">My Movie</h5>
             </div>
             <nav className="flex flex-row gap-8 items-center">
-              <div to="/" className=" text-md  text-gray-300 hover:text-yellow-600 cursor-pointer font-semibold ">Home</div>
-              <div to="/list-job" className=" text-md  text-gray-300 hover:text-yellow-600 cursor-pointer font-semibold ">Movie List</div>
-              <div to="/list-job" className=" text-md  text-gray-300 hover:text-yellow-600 cursor-pointer font-semibold ">Membership</div>
-              <div to="/list-job" className=" text-md  text-gray-300 hover:text-yellow-600 cursor-pointer font-semibold ">Your Chart</div>
-              <div to="/list-job" className=" text-md  text-gray-300 hover:text-yellow-600 cursor-pointer font-semibold ">History</div>
+              <Link to="/" className=" text-md  text-gray-300 hover:text-red-500 font-semibold ">Home</Link>
+              <Link to="/movie" className=" text-md  text-gray-300 hover:text-red-500 font-semibold ">Movie List</Link>
+              <Link to="/membership" className=" text-md  text-gray-300 hover:text-red-500 font-semibold ">Membership</Link>
+              <Link to="/yourchart" className=" text-md  text-gray-300 hover:text-red-500 font-semibold ">Your Chart</Link>
+              <Link to="/history" className=" text-md  text-gray-300 hover:text-red-500 font-semibold ">History</Link>
             </nav>
             <nav>
               <div className="text-md bg-red-500 text-white font-semibold py-1 px-5 rounded-md">Login</div>

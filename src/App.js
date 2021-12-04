@@ -1,5 +1,7 @@
 
 import './App.css';
+import React from 'react';
+import { BrowserRouter, Switch, Route} from 'react-router-dom'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Movie from './pages/Movie'
@@ -8,13 +10,20 @@ import Membership from './pages/Membership';
 import Yourchart from './pages/Yourchart';
 import DetailMovie from './pages/DetailMovie';
 
+
 function App() {
   return (
-    <div>
+    <BrowserRouter>
       <Header/>
-      <DetailMovie/>
+      <Switch>
+        <Route path="/" exact component={Home}/>
+        <Route path="/movie" component={Movie}/>
+        <Route path="/membership" component={Membership}/>
+        <Route path="/moviedetail/:id" component={DetailMovie}/>
+        <Route path="/yourchart" component={Yourchart}/>
+      </Switch>
       <Footer/>
-    </div>
+    </BrowserRouter>
   );
 }
 
