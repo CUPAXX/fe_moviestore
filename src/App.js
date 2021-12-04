@@ -10,6 +10,8 @@ import Membership from './pages/Membership';
 import Yourchart from './pages/Yourchart';
 import DetailMovie from './pages/DetailMovie';
 
+import Login from './pages/Login'
+
 
 function App() {
   return (
@@ -21,6 +23,7 @@ function App() {
         <Route path="/membership" component={Membership}/>
         <Route path="/moviedetail/:id" component={DetailMovie}/>
         <Route path="/yourchart" component={Yourchart}/>
+        <Route path="/login" component={Login} />
       </Switch>
       <Footer/>
     </BrowserRouter>
