@@ -4,7 +4,7 @@ import avenger from '../assets/avenger.jpg'
 export default class DetailMovie extends Component {
   render() {
     return (
-      <div className="bg-gray-200 px-14 py-20 flex flex-col gap-12">
+      <div className="bg-gray-200 px-14 py-16 flex flex-col gap-12">
         <div className="flex flex-row gap-16">
           <div className="flex justify-center">
             <img src={avenger} className=" max-w-sm max-h-96 rounded-md shadow-xl" alt="poster detail" />
