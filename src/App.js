@@ -11,6 +11,7 @@ import Yourchart from './pages/Yourchart';
 import DetailMovie from './pages/DetailMovie';
 
 import Login from './pages/Login'
+import Register from './pages/Register'
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path="/moviedetail/:id" component={DetailMovie}/>
         <Route path="/yourchart" component={Yourchart}/>
         <Route path="/login" component={Login} />
+        <Route path="/register" component={Register} />
       </Switch>
       <Footer/>
     </BrowserRouter>
