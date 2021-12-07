@@ -2,9 +2,17 @@ import React, { Component } from 'react'
 import {AiOutlineUser, BiSearchAlt, BiTrophy} from 'react-icons/all'
 import companyLogo from '../assets/companyLogo.jpg'
 import Subscription from '../components/Subscription'
+import { connect } from 'react-redux'
+import { getMembership } from '../redux/actions/membership'
 
-export default class Home extends Component {
+class Home extends Component {
+  
+  componentDidMount = () => {
+    this.props.getMembership()
+  }
+  
   render() {
+    const {dataMembership} = this.props.membership
     return (
       <div>
         <section className="bg-home flex flex-col">
@@ -47,9 +55,17 @@ export default class Home extends Component {
             </div>
             <div className="flex flex-row justify-center  w-8/12">
               <div className="flex flex-row gap-14 lg:gap-14">
-                <Subscription />
-                <Subscription />
-                <Subscription />
+                {dataMembership.map(member => (
+                  <Subscription 
+                    key={member.id}
+                    title={member.title}
+                    price={member.price}
+                    feature1={member.feature1}
+                    feature2={member.feature2}
+                    feature3={member.feature3}
+                    feature4={member.feature4}
+                  />
+                ))}
               </div>
               
             </div>
@@ -72,3 +88,11 @@ export default class Home extends Component {
     )
   }
 }
+
+const mapStateToProps = state => ({
+  membership: state.membership
+ })
+ 
+ const mapDispatchToProps = { getMembership }
+ 
+ export default connect(mapStateToProps, mapDispatchToProps)(Home)

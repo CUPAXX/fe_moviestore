@@ -4,9 +4,11 @@ import { connect } from 'react-redux'
 import { getMembership } from '../redux/actions/membership'
 
 class Membership extends Component {
+  
   componentDidMount = () => {
     this.props.getMembership()
   }
+
   render() {
     const {dataMembership} = this.props.membership
     return (
