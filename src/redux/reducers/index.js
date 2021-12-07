@@ -4,6 +4,7 @@ import movie from './movie'
 import category from './category';
 import membership from './membership';
 import carts from './carts';
+import transaction from './transaction'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage';
 
@@ -17,7 +18,8 @@ const reducer = combineReducers({
   movie,
   category,
   membership,
-  carts
+  carts,
+  transaction
 })
 
 export default reducer

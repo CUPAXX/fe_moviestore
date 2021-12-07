@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import avenger from '../assets/avenger.jpg'
 import { connect } from 'react-redux'
 import { getDetailMovie } from '../redux/actions/movie'
 import { addItems } from '../redux/actions/carts'

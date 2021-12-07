@@ -2,20 +2,59 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import CartItems from '../components/CartItems'
 import empty from '../assets/empty.png'
+import { createTransaction } from '../redux/actions/transaction'
+import Swal from 'sweetalert2'
 
 class Yourchart extends Component  {
   state = {
-    total: 0
+    total: 0,
+    load: []
   }
 
   componentDidMount = () => {
     if (this.props.carts.items.length > 0) {
       this.loadTotal()
+      this.loadData()
     } else {
       this.setState({
         total: 0
       });
     }
+  }
+
+  loadData = () => {
+    this.setState({
+      load: this.props.carts.items
+    })
+  }
+
+  onPayment = () => {
+    const title = this.state.load.map((i) => {
+      return i.title
+    })
+    const finalData = {
+      token: this.props.auth.token,
+      item: title,
+      total: this.state.total
+    }
+    Swal.fire({
+      title: 'Do You Ready to Pay?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Go!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.props.createTransaction(finalData)
+        Swal.fire(
+          'Added!',
+          'Transaction Successfully!',
+          'success'
+        )
+      }
+    })
   }
 
   loadTotal = () => {
@@ -27,7 +66,6 @@ class Yourchart extends Component  {
 
   render() {
     const {items} = this.props.carts
-    console.log(items, this.state.total)
     return (
       <div className="bg-gray-200 flex flex-col items-center py-20 px-14">
         {items.length > 0 ? (
@@ -44,7 +82,7 @@ class Yourchart extends Component  {
                 <h3 className="font-semibold text-xl text-green-500">IDR. {this.state.total}</h3>
               </div>
             </div>
-            <div className="bg-red-500 px-10 py-2 text-center text-white font-semibold rounded-md">Pay Now</div>
+            <div onClick={this.onPayment} className="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-120 bg-red-500 px-10 py-2 text-center text-white font-semibold rounded-md cursor-pointer">Pay Now</div>
           </div>
         ) : (
           <div className="flex flex-col justify-center items-center gap-5">
@@ -59,9 +97,10 @@ class Yourchart extends Component  {
 
 const mapStateToProps = state => ({
   carts: state.carts,
-  auth: state.auth
+  transaction: state.transaction,
+  auth: state.auth,
 })
 
-const mapDispatchToProps = { }
+const mapDispatchToProps = { createTransaction }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Yourchart)

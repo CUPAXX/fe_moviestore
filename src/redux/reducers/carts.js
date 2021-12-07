@@ -10,6 +10,12 @@ const carts = (state = initialState, action) => {
         items: [...state.items, ...[action.payload]]
       }
     }
+    case 'CARTS_RESET': {
+      return {
+        ...state,
+        items: []
+      }
+    }
     default: {
       return {
         ...state

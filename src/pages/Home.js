@@ -64,6 +64,7 @@ class Home extends Component {
                     feature2={member.feature2}
                     feature3={member.feature3}
                     feature4={member.feature4}
+                    click={() => this.props.history.push('/membership')}
                   />
                 ))}
               </div>
