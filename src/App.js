@@ -14,6 +14,8 @@ import History from './pages/History'
 import Login from './pages/Login'
 import Register from './pages/Register'
 
+import PrivateRoute from './components/PrivateRoute';
+
 
 function App() {
   return (
@@ -21,13 +23,17 @@ function App() {
       <Header/>
       <Switch>
         <Route path="/" exact component={Home}/>
+        <PrivateRoute path="/yourchart">
+          <Yourchart />
+        </PrivateRoute>
+        <PrivateRoute path="/history">
+          <History/>
+        </PrivateRoute>
         <Route path="/movie" component={Movie}/>
         <Route path="/membership" component={Membership}/>
         <Route path="/moviedetail/:id" component={DetailMovie}/>
-        <Route path="/yourchart" component={Yourchart}/>
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
-        <Route path="/history" component={History} />
       </Switch>
       <Footer/>
     </BrowserRouter>
