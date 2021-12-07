@@ -7,7 +7,6 @@
     <a href="https://github.com/CUPAXX/fe_moviestore/pulls">Request Feature</a>
   </p>
 
-![Image Banner](screnshoot/home.jpg)
 
 
 ## Built With
