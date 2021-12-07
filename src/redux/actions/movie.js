@@ -24,3 +24,24 @@ export const getMovie = () => {
     
   }
 }
+
+export const getDetailMovie = (id) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await http().get(`${URL}/movie/${id}`)
+      dispatch({
+        type: 'GET_DETAIL_MOVIE',
+        payload: data.results
+      })
+    } catch (err) {
+      dispatch({
+        type: 'GET_DETAIL_MOVIE_FAILED',
+        payload: err.response.data.message
+      })
+      setTimeout(() => {
+        dispatch({type: 'MOVIE_RESET'});
+      }, 3000);
+    }
+    
+  }
+}

@@ -1,6 +1,7 @@
 const initialState = {
-  dataMovie: {},
-  pageInfo: {},
+  dataMovie: [],
+  dataDetailMovie: {},
+  pageInfo: [],
   errMsg: '',
   succMsg: ''
 }
@@ -19,7 +20,21 @@ const movie = (state = initialState, action) => {
       return {
         ...state,
         errMsg: action.payload,
-        dataMovie: {}
+        dataMovie: []
+      }
+    }
+    case 'GET_DETAIL_MOVIE': {
+      return {
+        ...state,
+        dataDetailMovie: action.payload,
+        errMsg: ''
+      }
+    }
+    case 'GET_DETAIL_MOVIE_FAILED': {
+      return {
+        ...state,
+        errMsg: action.payload,
+        dataDetailMovie: {}
       }
     }
     case 'MOVIE_RESET': {

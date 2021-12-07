@@ -1,6 +1,6 @@
 const initialState = {
-  dataCategory: {},
-  dataMovieByCategory: {},
+  dataCategory: [],
+  dataMovieByCategory: [],
   errMsg: '',
   succMsg: ''
 }
@@ -18,7 +18,7 @@ const category = (state = initialState, action) => {
       return {
         ...state,
         errMsg: action.payload,
-        dataCategory: {}
+        dataCategory: []
       }
     }
     case 'GET_MOVIE_CATEGORY': {
@@ -32,7 +32,7 @@ const category = (state = initialState, action) => {
       return {
         ...state,
         errMsg: action.payload,
-        dataMovieByCategory: {}
+        dataMovieByCategory: []
       }
     }
     case 'CATEGORY_RESET': {

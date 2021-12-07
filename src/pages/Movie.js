@@ -1,12 +1,9 @@
 import React, { Component } from 'react'
 import MovieItems from '../components/MovieItems'
-import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getMovie } from '../redux/actions/movie'
 import { getCategory, getMovieByCategory } from '../redux/actions/category'
 import CategoryItems from '../components/CategoryItems'
-import { data } from 'autoprefixer'
-
 const { REACT_APP_BACKEND_URL: URL } = process.env
 
 class Movie extends Component {
@@ -15,11 +12,11 @@ class Movie extends Component {
     this.props.getCategory()
     this.props.getMovieByCategory(this.props.match.params.id)
   }
+  
 
   render() {
     const {dataMovie} = this.props.movie
     const {dataMovieByCategory} = this.props.category
-    console.log(dataMovieByCategory)
     const {dataCategory} = this.props.category
     const {pageInfo} = this.props.movie
     return (
@@ -28,7 +25,7 @@ class Movie extends Component {
           <h3 className="font-semibold text-2xl">Category</h3>
           <div className="bg-white w-60 shadow-xl">
             {dataCategory.map(category => (
-              <CategoryItems key={category.id} coba={() => this.props.getMovieByCategory(category.id)} name={category.name} />
+              <CategoryItems key={category.id} click={() => this.props.getMovieByCategory(category.id)} name={category.name} />
             ))}
           </div>
         </div>
@@ -38,13 +35,13 @@ class Movie extends Component {
             {dataMovieByCategory.length === 0 ? (
               <React.Fragment>
                 {dataMovie?.map(movie => (
-                  <MovieItems key={movie.id} images={`${URL}${movie.picture}`} title={movie.title} />
+                  <MovieItems click={`/moviedetail/${movie.id}`} key={movie.id} images={`${URL}${movie.picture}`} title={movie.title} />
                 ))}
               </React.Fragment>
             ) : (
               <React.Fragment>
                 {dataMovieByCategory?.map(movie => (
-                  <MovieItems key={movie.id} images={`${URL}${movie.picture}`} title={movie.title} />
+                  <MovieItems click={`/moviedetail/${movie.id}`} key={movie.id} images={`${URL}${movie.picture}`} title={movie.title} />
                 ))}
               </React.Fragment>
             )}
