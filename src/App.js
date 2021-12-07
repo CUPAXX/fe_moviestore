@@ -9,6 +9,7 @@ import Home from './pages/Home';
 import Membership from './pages/Membership';
 import Yourchart from './pages/Yourchart';
 import DetailMovie from './pages/DetailMovie';
+import History from './pages/History'
 
 import Login from './pages/Login'
 import Register from './pages/Register'
@@ -26,6 +27,7 @@ function App() {
         <Route path="/yourchart" component={Yourchart}/>
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
+        <Route path="/history" component={History} />
       </Switch>
       <Footer/>
     </BrowserRouter>
