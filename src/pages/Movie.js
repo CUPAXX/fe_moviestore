@@ -1,31 +1,34 @@
-import React, { Component } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from 'react'
 import MovieItems from '../components/MovieItems'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getMovie } from '../redux/actions/movie'
 import { getCategory, getMovieByCategory } from '../redux/actions/category'
 import CategoryItems from '../components/CategoryItems'
 const { REACT_APP_BACKEND_URL: URL } = process.env
 
-class Movie extends Component {
-  componentDidMount = () => {
-    this.props.getMovie()
-    this.props.getCategory()
-    this.props.getMovieByCategory(this.props.match.params.id)
-  }
-  
+const Movie = (props) => {
 
-  render() {
-    const {dataMovie} = this.props.movie
-    const {dataMovieByCategory} = this.props.category
-    const {dataCategory} = this.props.category
-    const {pageInfo} = this.props.movie
+  const {dataMovie} = useSelector(state => state.movie)
+  const {dataMovieByCategory} = useSelector(state => state.category)
+  const {dataCategory} = useSelector(state => state.category)
+  const {pageInfo} = useSelector(state => state.movie)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getMovie())
+    dispatch(getCategory())
+    dispatch(getMovieByCategory(props.match.params.id))
+  }, [])
+  
+    
     return (
       <div className="bg-gray-200 flex flex-row gap-10 px-14 py-10 w-full h-full">
         <div className=" flex flex-col gap-5">
           <h3 className="font-semibold text-2xl">Category</h3>
           <div className="bg-white w-60 shadow-xl">
             {dataCategory.map(category => (
-              <CategoryItems key={category.id} click={() => this.props.getMovieByCategory(category.id)} name={category.name} />
+              <CategoryItems key={category.id} click={() => dispatch(getMovieByCategory(category.id))} name={category.name} />
             ))}
           </div>
         </div>
@@ -62,14 +65,6 @@ class Movie extends Component {
         
       </div>
     )
-  }
 }
 
-const mapStateToProps = state => ({
-  movie: state.movie,
-  category: state.category
-})
-
-const mapDispatchToProps = { getMovie, getCategory, getMovieByCategory }
-
-export default connect(mapStateToProps, mapDispatchToProps)(Movie)
+export default Movie
