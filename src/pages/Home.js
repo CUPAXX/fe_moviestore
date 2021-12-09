@@ -1,18 +1,20 @@
-import React, { Component } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from 'react'
 import {AiOutlineUser, BiSearchAlt, BiTrophy} from 'react-icons/all'
+import { useSelector } from 'react-redux'
 import companyLogo from '../assets/companyLogo.jpg'
 import Subscription from '../components/Subscription'
-import { connect } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { getMembership } from '../redux/actions/membership'
 
-class Home extends Component {
-  
-  componentDidMount = () => {
-    this.props.getMembership()
-  }
-  
-  render() {
-    const {dataMembership} = this.props.membership
+const Home = (props) => {
+  const {dataMembership} = useSelector(state => state.membership)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getMembership())
+  }, [])
+
     return (
       <div>
         <section className="bg-home flex flex-col">
@@ -64,7 +66,7 @@ class Home extends Component {
                     feature2={member.feature2}
                     feature3={member.feature3}
                     feature4={member.feature4}
-                    click={() => this.props.history.push('/membership')}
+                    click={() => props.history.push('/membership')}
                   />
                 ))}
               </div>
@@ -87,13 +89,5 @@ class Home extends Component {
           </section>
       </div>
     )
-  }
 }
-
-const mapStateToProps = state => ({
-  membership: state.membership
- })
- 
- const mapDispatchToProps = { getMembership }
- 
- export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default Home
