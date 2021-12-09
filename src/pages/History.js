@@ -1,60 +1,57 @@
-import React, { Component } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from 'react'
 import HistoryItems from '../components/HistoryItems'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getHistory, getDetailHistory } from '../redux/actions/transaction'
 import {RiCloseCircleFill} from 'react-icons/all'
-class History extends Component {
-  constructor() {
-    super();
-    this.state = {
-      show: false
-    };
-    this.showModal = this.showModal.bind(this);
-    this.hideModal = this.hideModal.bind(this);
-  }
 
-  showModal = () => {
-    this.setState({ show: true });
+const History = (props) => {
+  const [show, setShow] = useState(false)
+  const {token} = useSelector(state => state.auth)
+  const {dataHistory} = useSelector(state => state.transaction)
+  const {dataDetailHistory} = useSelector(state => state.transaction)
+  const dispatch = useDispatch()
+
+  const showModal = () => {
+    setShow(true)
   };
 
-  hideModal = () => {
-    this.setState({ show: false });
+  const hideModal = () => {
+    setShow(false)
   };
   
-  onLoad = () => {
-    const {token} = this.props.auth
-    this.props.getHistory(token)
+  const onLoad = () => {
+    dispatch(getHistory(token))
   }
 
-  componentDidMount = () => {
-    this.onLoad()
-  }
-  onDetail = (id) => {
+  useEffect(() => {
+    onLoad()
+  }, [])
+
+  const onDetail = (id) => {
     const finalData = {
       id: id,
-      token: this.props.auth.token
+      token: token
     }
-    this.props.getDetailHistory(finalData).then(() => {
-      this.showModal()
-    })
+    if(dispatch(getDetailHistory(finalData))){
+      showModal()
+    }
   }
-    render() {
-      const {dataHistory} = this.props.transaction
-      const {dataDetailHistory} = this.props.transaction
+      
         return (
             <>
               <div className="bg-gray-200 px-14 py-20">
                 <div className="grid grid-cols-3 items-center gap-8">
                   {dataHistory.map(history => (
-                    <HistoryItems key={history.id} code={history.refNo} tanggal={history.createdAt.slice(0, 10)} click={() => this.onDetail(history.id)} />
+                    <HistoryItems key={history.id} code={history.refNo} tanggal={history.createdAt.slice(0, 10)} click={() => onDetail(history.id)} />
                   ))}
                 </div>
               </div>
               {dataDetailHistory !== null ? (
                 <Modal 
-                  outsideHide={this.hideModal}
-                  show={this.state.show}
-                  close={this.hideModal}
+                  outsideHide={hideModal}
+                  show={show}
+                  close={hideModal}
                   code={dataDetailHistory.refNo}
                   date={dataDetailHistory.createdAt.slice(0, 10)}
                   items={dataDetailHistory.item}
@@ -65,7 +62,6 @@ class History extends Component {
               )}
             </>
         )
-    }
 }
 
 const Modal = ({show, outsideHide, date, code, items, total, close}) => {
@@ -88,11 +84,4 @@ const Modal = ({show, outsideHide, date, code, items, total, close}) => {
   )
 }
 
-const mapStateToProps = state => ({
-  transaction: state.transaction,
-  auth: state.auth,
-})
-
-const mapDispatchToProps = { getHistory, getDetailHistory }
-
-export default connect(mapStateToProps, mapDispatchToProps)(History)
+export default History
