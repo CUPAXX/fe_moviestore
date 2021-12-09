@@ -1,23 +1,25 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { getDetailMovie } from '../redux/actions/movie'
 import { addItems } from '../redux/actions/carts'
 import Swal from 'sweetalert2'
 const { REACT_APP_BACKEND_URL: URL } = process.env
 
-class DetailMovie extends Component {
-  state = {
-    movie: {}
-  }
-  componentDidMount = () => {
-    this.props.getDetailMovie(this.props.match.params.id)
-  }
+const DetailMovie = (props) => {
+  const {dataDetailMovie} = useSelector(state => state.movie)
+  const {token} = useSelector(state => state.auth)
+  const dispatch = useDispatch()
 
-  addItem = () => {
+  useEffect(() => {
+    dispatch(getDetailMovie(props.match.params.id))
+  }, [])
+
+  const addItem = () => {
     const data = {
-      id: this.props.movie.dataDetailMovie.id,
-      title: this.props.movie.dataDetailMovie.title,
-      price: this.props.movie.dataDetailMovie.price
+      id: dataDetailMovie.id,
+      title: dataDetailMovie.title,
+      price: dataDetailMovie.price
     }
     Swal.fire({
       title: 'Add This Item to Your Cart?',
@@ -28,18 +30,24 @@ class DetailMovie extends Component {
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes, add it!'
     }).then((result) => {
-      if (result.isConfirmed) {
-        this.props.addItems(data)
+      if(token === null){
         Swal.fire(
-          'Added!',
-          'Item Added to Your Cart!',
-          'success'
+          'Error!',
+          'You Need To Login First!',
+          'error'
         )
+      } else {
+        if (result.isConfirmed) {
+          dispatch(addItems(data))
+          Swal.fire(
+            'Added!',
+            'Item Added to Your Cart!',
+            'success'
+          )
+        }
       }
     })
   }
-  render() {
-    const {dataDetailMovie} = this.props.movie
     return (
       <div className="bg-gray-200 px-14 py-16 flex flex-col gap-8">
         <div className="flex flex-row gap-16">
@@ -56,17 +64,10 @@ class DetailMovie extends Component {
         <div className="flex flex-row justify-between items-center">
           <h3 className="text-2xl font-bold text-red-500">{dataDetailMovie.title}</h3>
           <h3 className="text-2xl font-bold text-green-600">Price: {dataDetailMovie.price} IDR</h3>
-          <div onClick={this.addItem} className=" cursor-pointer text-center text-white bg-red-500 px-14 py-3 font-semibold rounded-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-140">Add To Chart</div>
+          <div onClick={addItem} className=" cursor-pointer text-center text-white bg-red-500 px-14 py-3 font-semibold rounded-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-140">Add To Chart</div>
         </div>
       </div>
     )
-  }
 }
 
-const mapStateToProps = state => ({
-  movie: state.movie
-})
-
-const mapDispatchToProps = { getDetailMovie, addItems }
-
-export default connect(mapStateToProps, mapDispatchToProps)(DetailMovie)
+export default DetailMovie
